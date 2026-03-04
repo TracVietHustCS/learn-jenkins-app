@@ -1,43 +1,712 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Learn Jenkins</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lê Ngô Trác Việt - Portfolio</title>
+  <style>
+    :root {
+      --bg-dark: #050505;
+      --text-main: #ffffff;
+      --text-muted: #8892b0;
+      --neon-cyan: #00f2c3;
+      --neon-blue: #4d4dff;
+      --neon-purple: #b300ff;
+      --neon-pink: #ff0055;
+      --glass-bg: rgba(15, 15, 20, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+    }
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background Orbs */
+    .bg-orbs {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      z-index: -2;
+      background: #000;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 20s infinite alternate cubic-bezier(0.5, 0, 0.5, 1);
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: var(--neon-purple);
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 300px;
+      height: 300px;
+      background: var(--neon-blue);
+      bottom: 10%;
+      right: -50px;
+      animation-duration: 25s;
+      animation-direction: alternate-reverse;
+    }
+
+    .orb-3 {
+      width: 250px;
+      height: 250px;
+      background: var(--neon-cyan);
+      top: 40%;
+      left: 30%;
+      animation-duration: 30s;
+      opacity: 0.3;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(10vw, 10vh) scale(1.2);
+      }
+
+      100% {
+        transform: translate(-5vw, 15vh) scale(0.9);
+      }
+    }
+
+    /* Glassmorphism utility */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Animated gradient text */
+    .glitch-wrapper {
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      position: relative;
+      animation: textReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      font-weight: 400;
+      margin-bottom: 2rem;
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border-radius: 50px;
+      background: rgba(0, 242, 195, 0.1);
+      color: var(--neon-cyan);
+      border: 1px solid rgba(0, 242, 195, 0.3);
+      box-shadow: 0 0 20px rgba(0, 242, 195, 0.2);
+      opacity: 0;
+      animation: textReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.3s;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      opacity: 0;
+      animation: textReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.6s;
+      padding: 0 20px;
+    }
+
+    @keyframes textReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+        filter: blur(10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    /* Continuous subtle pulse for hero button/indicator */
+    .scroll-down {
+      position: absolute;
+      bottom: 50px;
+      width: 40px;
+      height: 60px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 10px;
+      text-decoration: none;
+      opacity: 0;
+      animation: textReveal 1s forwards 1.2s;
+      transition: border-color 0.3s;
+    }
+
+    .scroll-down:hover {
+      border-color: var(--neon-cyan);
+    }
+
+    .scroll-down::before {
+      content: '';
+      width: 6px;
+      height: 12px;
+      background: var(--neon-cyan);
+      border-radius: 3px;
+      animation: scrollLine 2s infinite cubic-bezier(0.15, 0.41, 0.69, 0.94);
+    }
+
+    @keyframes scrollLine {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+    }
+
+    /* Container & Titles */
+    .section-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 8rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .sec-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 4rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .sec-title span {
+      color: var(--neon-purple);
+      margin-right: 15px;
+      font-size: 1.5rem;
+      font-weight: normal;
+    }
+
+    .sec-title::after {
+      content: '';
+      flex-grow: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--glass-border), transparent);
+      margin-left: 20px;
+    }
+
+    /* --- CAREER PATH (TIMELINE) --- */
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 11px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--neon-purple), var(--neon-cyan));
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--neon-purple);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 4rem;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .timeline-item:hover {
+      transform: translateX(10px);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -40px;
+      top: 5px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 4px solid var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan);
+      z-index: 2;
+      transition: all 0.3s;
+    }
+
+    .timeline-item:nth-child(2) .timeline-dot {
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 15px var(--neon-purple);
+    }
+
+    .timeline-item:hover .timeline-dot {
+      transform: scale(1.3);
+      background: var(--neon-cyan);
+    }
+
+    .timeline-item:nth-child(2):hover .timeline-dot {
+      background: var(--neon-purple);
+    }
+
+    .timeline-content {
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated border gradient */
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+
+    .timeline-item:hover .timeline-content::before {
+      transform: translateX(100%);
+    }
+
+    .timeline-date {
+      color: var(--neon-cyan);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .timeline-item:nth-child(2) .timeline-date {
+      color: var(--neon-purple);
+    }
+
+    .timeline-title {
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .timeline-company {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    /* --- SKILLS SECTION --- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .skill-card {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Glowing energetic corners on hover */
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-top: 3px solid transparent;
+      border-right: 3px solid transparent;
+      top: -1px;
+      right: -1px;
+      border-radius: 0 20px 0 0;
+      transition: all 0.4s;
+    }
+
+    .skill-card.frontend:hover::after {
+      border-color: var(--neon-cyan);
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+
+    .skill-card.backend:hover::after {
+      border-color: var(--neon-purple);
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+
+    .skill-card.cloud:hover::after {
+      border-color: var(--neon-blue);
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+
+
+    .skill-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .skill-header svg {
+      width: 32px;
+      height: 32px;
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+
+    .frontend .skill-header {
+      color: var(--neon-cyan);
+    }
+
+    .backend .skill-header {
+      color: var(--neon-purple);
+    }
+
+    .cloud .skill-header {
+      color: var(--neon-blue);
+    }
+
+    .badges-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Advanced Badge styling */
+    .badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      padding: 8px 16px;
+      border-radius: 8px;
+      /* Modern slightly square look */
+      font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transform: translateX(-100%);
+      transition: 0.5s;
+    }
+
+    .frontend .badge:hover {
+      background: rgba(0, 242, 195, 0.15);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 242, 195, 0.3);
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    .backend .badge:hover {
+      background: rgba(179, 0, 255, 0.15);
+      border-color: var(--neon-purple);
+      box-shadow: 0 0 15px rgba(179, 0, 255, 0.3);
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    .cloud .badge:hover {
+      background: rgba(77, 77, 255, 0.15);
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 15px rgba(77, 77, 255, 0.3);
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    .badge:hover::before {
+      transform: translateX(100%);
+    }
+
+    /* Footer */
+    footer {
+      padding: 4rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--glass-border);
+      position: relative;
+      z-index: 10;
+      background: rgba(5, 5, 5, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo span {
+      color: var(--neon-blue);
+    }
+
+    .footer-text {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+
+      .sec-title {
+        font-size: 2rem;
+      }
+
+      .timeline {
+        padding-left: 20px;
+      }
+
+      .timeline-dot {
+        left: -28px;
+        width: 16px;
+        height: 16px;
+        border-width: 3px;
+      }
+
+      .timeline::before {
+        left: -21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background Animation -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="hero" id="home">
+    <div class="glitch-wrapper">
+      <h1>Lê Ngô Trác Việt</h1>
+    </div>
+    <h2>Software / DevOps Engineer</h2>
+    <p>Passionate about building scalable architectures and bridging the gap between innovative development and flawless
+      operations. Crafting high-performance systems for the future.</p>
+
+    <a href="#experience" class="scroll-down" aria-label="Scroll Down"></a>
+  </header>
+
+  <!-- Experience / Career Path -->
+  <section id="experience" class="section-container">
+    <h2 class="sec-title"><span>01.</span> Career Path</h2>
+
+    <div class="timeline">
+      <!-- FPT Software -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">Present</span>
+          <h3 class="timeline-title">DevOps Engineer</h3>
+          <div class="timeline-company">FPT Software</div>
+          <p style="color: var(--text-muted); line-height: 1.7;">
+            Designed and deployed cloud-native infrastructure on Amazon EKS using Terraform to provision and manage
+            scalable microservices environments. Implemented end-to-end CI/CD pipelines and GitOps workflows with ArgoCD
+            to streamline deployments and ensure configuration consistency across clusters. Built a comprehensive
+            observability stack (Prometheus, Grafana, ELK) enabling real-time monitoring, centralized logging, and
+            proactive incident response for high‑availability financial platforms.
+          </p>
+        </div>
+      </div>
+
+      <!-- Techcombank -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content glass-panel">
+          <span class="timeline-date">Previous</span>
+          <h3 class="timeline-title">Software Engineer</h3>
+          <div class="timeline-company">Techcombank</div>
+          <p style="color: var(--text-muted); line-height: 1.7;">
+            Developed and maintained mission-critical backend microservices using Java and Spring Boot. Applied strong
+            foundation in databases (PostgreSQL, MongoDB) to optimize data workflows. Collaborated in an agile
+            environment to deliver secure, high-availability financial applications for millions of users. Additionally,
+            managed cloud infrastructure (AWS) and implemented CI/CD pipelines (Jenkins/GitHub Actions) to automate
+            deployment, improve scalability, and ensure system reliability.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="section-container">
+    <h2 class="sec-title"><span>02.</span> Technical Arsenal</h2>
+
+    <div class="skills-grid">
+      <!-- Frontend -->
+      <div class="skill-card glass-panel frontend">
+        <div class="skill-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+            </path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          Frontend
+        </div>
+        <div class="badges-wrap">
+          <span class="badge">JavaScript (JS)</span>
+          <span class="badge">TypeScript (TS)</span>
+          <span class="badge">Angular</span>
+          <span class="badge">Bootstrap</span>
+          <span class="badge">HTML5</span>
+          <span class="badge">CSS3</span>
+        </div>
+      </div>
+
+      <!-- Backend -->
+      <div class="skill-card glass-panel backend">
+        <div class="skill-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+          Backend
+        </div>
+        <div class="badges-wrap">
+          <span class="badge">Python</span>
+          <span class="badge">C++</span>
+          <span class="badge">Java</span>
+          <span class="badge">Spring Boot</span>
+          <span class="badge">Spring Security</span>
+          <span class="badge">PostgreSQL</span>
+          <span class="badge">MySQL</span>
+          <span class="badge">MongoDB</span>
+          <span class="badge">Redis</span>
+          <span class="badge">Kafka</span>
+          <span class="badge">Flyway</span>
+        </div>
+      </div>
+
+      <!-- Cloud & DevOps -->
+      <div class="skill-card glass-panel cloud">
+        <div class="skill-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+          </svg>
+          Cloud & DevOps
+        </div>
+        <div class="badges-wrap">
+          <span class="badge">Spring Cloud</span>
+          <span class="badge">Kubernetes (K8s)</span>
+          <span class="badge">Docker</span>
+          <span class="badge">AWS</span>
+          <span class="badge">GitLab</span>
+          <span class="badge">Jenkins</span>
+          <span class="badge">Terraform</span>
+          <span class="badge">Ansible</span>
+          <span class="badge">Helm</span>
+          <span class="badge">ArgoCD</span>
+          <span class="badge">GitOps</span>
+          <span class="badge">ELK Stack</span>
+          <span class="badge">Prometheus</span>
+          <span class="badge">Grafana</span>
+          <span class="badge">Loki</span>
+          <span class="badge">Bash scripting</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Computer Science <span>HUST</span></div>
+    <p class="footer-text">&copy; 2026 Lê Ngô Trác Việt. All rights reserved.</p>
+  </footer>
+</body>
+
 </html>
