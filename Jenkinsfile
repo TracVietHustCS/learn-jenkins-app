@@ -57,14 +57,14 @@ pipeline {
                             reuseNode true
                         }
                     }
+                            //                     #npm install serve
+                            // #node_modules/.bin/serve -s build &
+                            // #sleep 10
+                            // #npx playwright test  --reporter=html
+                            
+                            // # Đã thêm dấu cách chuẩn xác
                     steps {
                         sh '''
-                            #npm install serve
-                            #node_modules/.bin/serve -s build &
-                            #sleep 10
-                            #npx playwright test  --reporter=html
-                            
-                            # Đã thêm dấu cách chuẩn xác
                             echo '123'
                         '''
                     }
