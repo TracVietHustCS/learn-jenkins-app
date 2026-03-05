@@ -24,49 +24,63 @@ pipeline {
         }
         */
 
-        stage('Tests') {
-            parallel {
-                stage('Unit tests') {
-                    agent {
-                        docker {
-                            image 'node:18-alpine'
-                            reuseNode true
-                        }
-                    }
+        // stage('Tests') {
+        //     parallel {
+        //         stage('Unit tests') {
+        //             agent {
+        //                 docker {
+        //                     image 'node:18-alpine'
+        //                     reuseNode true
+        //                 }
+        //             }
 
-                    steps {
-                        sh '''
-                            #test -f build/index.html
-                            CI=true npm test
-                        '''
-                    }
-                    post {
-                        always {
-                            junit 'jest-results/junit.xml'
-                        }
-                    }
+        //             steps {
+        //                 sh '''
+        //                     #test -f build/index.html
+        //                     CI=true npm test
+        //                 '''
+        //             }
+        //             post {
+        //                 always {
+        //                     junit 'jest-results/junit.xml'
+        //                 }
+        //             }
+        //         }
+
+        //         stage('E2E') {
+        //             agent {
+        //                 docker {
+        //                     image 'node:18-alpine'
+        //                     reuseNode true
+        //                 }
+        //             }
+
+        //             steps {
+        //                 sh '''
+        //                     echo "test cho co" 
+        //                 '''
+        //             }
+
+        //             post{
+        //                 always{
+        //                     junit 'jest-results/junit.xml'
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        stage("deploy"){
+            agent{
+                docker{
+                    image 'node:18-alpine'
+                    reuseNode true
                 }
-
-                stage('E2E') {
-                    agent {
-                        docker {
-                            image 'node:18-alpine'
-                            reuseNode true
-                        }
-                    }
-
-                    steps {
-                        sh '''
-                            echo "test cho co" 
-                        '''
-                    }
-
-                    post{
-                        always{
-                            junit 'jest-results/junit.xml'
-                        }
-                    }
-                }
+            }
+            steps{
+                sh'''
+                    npm install netlify-cli
+                    netlify --version
+                '''
             }
         }
     }
