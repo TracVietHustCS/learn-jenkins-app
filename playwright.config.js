@@ -68,4 +68,11 @@ module.exports = defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+    /* Run your local dev server before starting the tests */
+  webServer: {
+    command: 'npx serve -s build', // Lệnh bật server
+    url: 'http://127.0.0.1:3000',  // Chờ cho đến khi URL này truy cập được mới bắt đầu test
+    reuseExistingServer: !process.env.CI,
+  },
+
 });
