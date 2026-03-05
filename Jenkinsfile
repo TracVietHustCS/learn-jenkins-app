@@ -50,27 +50,41 @@ pipeline {
                     }
                 }
 
-                stage('E2E') {
+                stage('mini') {
                     agent {
                         docker {
-                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            image 'node:18-alpine'
                             reuseNode true
                         }
                     }
-                            //                     #npm install serve
-                            // #node_modules/.bin/serve -s build &
-                            // #sleep 10
-                            // #npx playwright test  --reporter=html
-                            
-                            // # Đã thêm dấu cách chuẩn xác
                     steps {
                         sh '''
                             echo '123'
                         '''
                     }
-                } 
-            } // Đóng parallel
-        } // <--- ĐÂY LÀ DẤU NGOẶC BỊ THIẾU ĐÃ ĐƯỢC BỔ SUNG
+                }
+
+                // stage('E2E') {
+                //     agent {
+                //         docker {
+                //             image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                //             reuseNode true
+                //         }
+                //     }
+                //             //                     #npm install serve
+                //             // #node_modules/.bin/serve -s build &
+                //             // #sleep 10
+                //             // #npx playwright test  --reporter=html
+                            
+                //             // # Đã thêm dấu cách chuẩn xác
+                //     steps {
+                //         sh '''
+                //             echo '123'
+                //         '''
+                //     }
+                // } 
+            } 
+        } 
 
         stage('Deploy') {
             agent {
