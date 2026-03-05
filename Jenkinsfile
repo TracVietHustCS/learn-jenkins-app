@@ -6,7 +6,17 @@ pipeline {
         NETLIFY_SITE_ID = credentials('netlify-site-id')
     }
 
+    
+
     stages {
+
+        stage('test'){
+            steps{
+                sh'''
+                    ls -la
+                '''
+            }
+        }
         stage('Build') {
             agent {
                 docker {
