@@ -1,88 +1,78 @@
+
+
 pipeline {
     agent any
 
     environment {
-        NETLIFY_AUTH_TOKEN = credentials('netlify-token')
         NETLIFY_SITE_ID = credentials('netlify-site-id')
+        NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
-
-    
 
     stages {
 
-        // stage('test'){
-        //     steps{
-        //         sh'''
-        //             ls -la
-        //         '''
-        //     }
-        // }
-        // stage('Build') {
-        //     agent {
-        //         docker {
-        //             image 'node:18-alpine'
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         sh '''
-        //             ls -la
-        //             node --version
-        //             npm --version
-        //             npm ci
-        //             npm run build
-        //             ls -la
-        //         '''
-        //     }
-        // }
-        
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    ls -la
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
+                '''
+            }
+        }
 
-        // stage('Tests') {
-        //     parallel {
-        //         stage('Unit tests') {
-        //             agent {
-        //                 docker {
-        //                     image 'node:18-alpine'
-        //                     reuseNode true
-        //                 }
-        //             }
+        stage('Tests') {
+            parallel {
+                stage('Unit tests') {
+                    agent {
+                        docker {
+                            image 'node:18-alpine'
+                            reuseNode true
+                        }
+                    }
 
-        //             steps {
-        //                 sh '''
-        //                     #test -f build/index.html
-        //                     CI=true npm test
-        //                 '''
-        //             }
-        //             post {
-        //                 always {
-        //                     junit 'jest-results/junit.xml'
-        //                 }
-        //             }
-        //         }
+                    steps {
+                        sh '''
+                            #test -f build/index.html
+                            npm test
+                        '''
+                    }
+                    post {
+                        always {
+                            junit 'jest-results/junit.xml'
+                        }
+                    }
+                }
 
-        //         stage('E2E') {
-        //             agent {
-        //                 docker {
-        //                     image 'node:18-alpine'
-        //                     reuseNode true
-        //                 }
-        //             }
+                stage('E2E') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
+                        }
+                    }
 
-        //             steps {
-        //                 sh '''
-        //                     echo "test cho co" 
-        //                 '''
-        //             }
+                    steps {
+                        sh '''
+                            #npm install serve
+                            #node_modules/.bin/serve -s build &
+                            #sleep 10
+                            #npx playwright test  --reporter=html
+                            echo'123'
+                        '''
+                    }
+            }
+        }
 
-        //             post{
-        //                 always{
-        //                     junit 'jest-results/junit.xml'
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-              stage('Deploy') {
+        stage('Deploy') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -92,7 +82,6 @@ pipeline {
             steps {
                 sh '''
                     npm install netlify-cli
-                    apk add --no-cache bash
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
@@ -102,6 +91,3 @@ pipeline {
         }
     }
 }
-
-
-
