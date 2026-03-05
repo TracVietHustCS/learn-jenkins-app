@@ -4,24 +4,19 @@ const { test, expect } = require('@playwright/test');
 test('has title', async ({ page }) => {
   await page.goto('/');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Learn Jenkins/);
+  await expect(page).toHaveTitle(/Lê Ngô Trác Việt - Portfolio/);
 });
 
-test('has Jenkins in the body', async ({ page }) => {
+test('has name in the body', async ({ page }) => {
   await page.goto('/');
 
-  const isVisible = await page.locator('a:has-text("Learn Jenkins on Udemy")').isVisible();
+  const isVisible = await page.locator('h1:has-text("Lê Ngô Trác Việt")').isVisible();
   expect(isVisible).toBeTruthy();
 });
 
-test('has expected app version', async ({ page }) => {
+test('has expected role', async ({ page }) => {
   await page.goto('/');
 
-  const expectedAppVersion = process.env.REACT_APP_VERSION ? process.env.REACT_APP_VERSION : '1';
-
-  console.log(expectedAppVersion);
-
-  const isVisible = await page.locator(`p:has-text("Application version: ${expectedAppVersion}")`).isVisible();
+  const isVisible = await page.locator('h2:has-text("Software / DevOps Engineer")').isVisible();
   expect(isVisible).toBeTruthy();
 });
