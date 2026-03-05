@@ -1,5 +1,3 @@
-
-
 pipeline {
     agent any
 
@@ -38,11 +36,11 @@ pipeline {
                             reuseNode true
                         }
                     }
-
                     steps {
                         sh '''
                             #test -f build/index.html
-                            npm test
+                            # Đã chèn lại CI=true để Jenkins không bị treo
+                            CI=true npm test
                         '''
                     }
                     post {
@@ -59,18 +57,20 @@ pipeline {
                             reuseNode true
                         }
                     }
-
                     steps {
                         sh '''
                             #npm install serve
                             #node_modules/.bin/serve -s build &
                             #sleep 10
                             #npx playwright test  --reporter=html
-                            echo'123'
+                            
+                            # Đã thêm dấu cách chuẩn xác
+                            echo '123'
                         '''
                     }
-            }
-        }
+                } 
+            } // Đóng parallel
+        } // <--- ĐÂY LÀ DẤU NGOẶC BỊ THIẾU ĐÃ ĐƯỢC BỔ SUNG
 
         stage('Deploy') {
             agent {
